@@ -87,19 +87,91 @@
   .d-major{background:var(--clay)} .d-elec{background:var(--plum)} .d-free{background:var(--slate)}
 
   /* PROGRESS BAR (sticky) */
-  .progress{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);
-    box-shadow:0 2px 16px rgba(22,35,63,.08)}
-  .progress .wrap{padding:11px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .pg-track{flex:1;min-width:180px;height:12px;background:var(--paper2);border-radius:20px;overflow:hidden;
+  .progress{position:sticky;top:0;z-index:30;
+    background:rgba(247,244,237,.97);border-bottom:1px solid var(--line);
+    box-shadow:0 2px 16px rgba(22,35,63,.08);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .progress .wrap{padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+
+  /* ── ตัวเลขหลัก ── */
+  .pg-main{display:flex;align-items:baseline;gap:4px;white-space:nowrap;flex:none}
+  .pg-done{
+    font-family:"Cormorant",Georgia,serif;font-size:2.1rem;font-weight:700;
+    color:var(--sea);line-height:1;transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+  .pg-done.animate{transform:scale(1.18)}
+  .pg-done.done-color{color:var(--ok)}
+  .pg-sep{font-size:.88rem;color:var(--slate);font-weight:600;margin:0 2px}
+  .pg-total{font-size:.88rem;font-weight:800;color:var(--slate)}
+  .pg-unit{font-size:.72rem;color:var(--slate);margin-left:2px}
+
+  /* ── progress track ── */
+  .pg-track-wrap{flex:1;min-width:140px}
+  .pg-track{width:100%;height:11px;background:var(--paper2);border-radius:20px;overflow:hidden;
     box-shadow:inset 0 1px 3px rgba(22,35,63,.12)}
-  .pg-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-bright));
-    border-radius:20px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-  .pg-num{font-weight:800;font-size:1rem;white-space:nowrap}
-  .pg-num b{color:var(--sea);font-size:1.25rem}
-  .pg-num.done b{color:var(--ok)}
-  .pg-reset{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:5px 13px;
-    font-size:.8rem;font-weight:600;cursor:pointer;font-family:inherit;color:var(--slate)}
-  .pg-reset:hover{border-color:var(--clay);color:var(--clay)}
+  .pg-fill{height:100%;width:0;border-radius:20px;
+    background:linear-gradient(90deg,var(--sea) 0%,var(--gold) 70%,var(--ok) 100%);
+    background-size:200% 100%;
+    transition:width .55s cubic-bezier(.4,0,.2,1)}
+  .pg-fill.done-fill{background:linear-gradient(90deg,var(--ok),#4aaa6e);animation:pgPulse 1.4s ease infinite}
+  @keyframes pgPulse{0%,100%{opacity:1}50%{opacity:.7}}
+  .pg-pct-row{display:flex;justify-content:space-between;margin-top:3px;font-size:.7rem;font-weight:700}
+  .pg-pct-left{color:var(--slate)}
+  .pg-pct-right{color:var(--sea);transition:color .3s}
+  .pg-pct-right.done-color{color:var(--ok)}
+
+  /* ── breakdown pills ── */
+  .pg-breakdown{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .pg-pill{
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:.69rem;font-weight:700;padding:3px 9px;border-radius:20px;
+    white-space:nowrap;transition:.2s;border:1px solid transparent}
+  .pg-pill .pp-num{
+    font-family:"Cormorant",Georgia,serif;font-size:1rem;font-weight:700;line-height:1;
+    min-width:14px;text-align:center}
+  .pg-pill.ge  {background:var(--gold-soft); color:#7a5d12;border-color:#e5d39a}
+  .pg-pill.core{background:var(--sea-soft);  color:var(--sea);border-color:#a8d4cc}
+  .pg-pill.maj {background:var(--clay-soft); color:var(--clay);border-color:#d9b8ad}
+  .pg-pill.elec{background:var(--plum-soft); color:var(--plum);border-color:#c4aed4}
+  .pg-pill.free{background:var(--paper2);    color:var(--slate);border-color:var(--line)}
+  .pg-pill.coop{background:var(--sea-soft);  color:var(--sea);border-color:#a8d4cc}
+  /* ไฮไลต์ pill ที่เพิ่งอัปเดต */
+  .pg-pill.flash{animation:pillFlash .5s ease}
+  @keyframes pillFlash{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+
+  /* ── badge ครบ ── */
+  .pg-done-badge{
+    display:none;align-items:center;gap:6px;
+    font-size:.82rem;font-weight:800;color:var(--ok);
+    white-space:nowrap;flex:none;
+    padding:4px 12px;border-radius:20px;
+    background:rgba(47,125,79,.1);border:1.5px solid rgba(47,125,79,.3);
+    animation:pgBadgeIn .45s cubic-bezier(.34,1.56,.64,1)}
+  .pg-done-badge.show{display:inline-flex}
+  @keyframes pgBadgeIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+
+  /* ── reset ── */
+  .pg-reset{
+    border:1.5px solid var(--line);background:#fff;border-radius:20px;
+    padding:5px 13px;font-size:.78rem;font-weight:700;
+    cursor:pointer;font-family:inherit;color:var(--slate);transition:.18s;white-space:nowrap;flex:none}
+  .pg-reset:hover{border-color:var(--clay);color:var(--clay);background:var(--clay-soft)}
+
+  /* dark mode progress */
+  [data-theme="dark"] .progress{background:rgba(22,27,39,.97);border-bottom-color:#2e3650}
+  [data-theme="dark"] .pg-track{background:#2e3650}
+  [data-theme="dark"] .pg-sep,[data-theme="dark"] .pg-total,
+  [data-theme="dark"] .pg-unit,[data-theme="dark"] .pg-pct-left{color:#4a5568}
+  [data-theme="dark"] .pg-pct-right{color:var(--sea)}
+  [data-theme="dark"] .pg-pill.ge  {background:#2a2010;color:#d4b870;border-color:#4a3818}
+  [data-theme="dark"] .pg-pill.core{background:#0e2926;color:#4ab8a8;border-color:#1e4a44}
+  [data-theme="dark"] .pg-pill.maj {background:#2a1208;color:#d47a5a;border-color:#4a2018}
+  [data-theme="dark"] .pg-pill.elec{background:#1e1430;color:#9a7abf;border-color:#3a2458}
+  [data-theme="dark"] .pg-pill.free{background:#1e2436;color:#64748b;border-color:#2e3650}
+  [data-theme="dark"] .pg-done-badge{background:rgba(74,170,110,.12);border-color:rgba(74,170,110,.3)}
+  [data-theme="dark"] .pg-reset{background:#1e2436;border-color:#2e3650;color:#64748b}
+  [data-theme="dark"] .pg-reset:hover{background:#2a1208;border-color:var(--clay);color:var(--clay)}
+  [data-theme="dark"] .pg-reset{background:#1e2436;color:#8a9ab8;border-color:#2e3650}
+  [data-theme="dark"] .pg-reset:hover{border-color:var(--clay);color:var(--clay)}
 
   /* SEARCH + TABS */
   .toolbar{background:var(--paper);border-bottom:2px solid var(--line);padding:12px 0}
@@ -963,7 +1035,101 @@
   .course.minor{border-left-color:var(--plum)}
   .d-minor{background:var(--plum)}
 
-  /* ===== กล่องไฮไลต์สหกิจศึกษา ===== */
+  /* ===== DARK MODE ===== */
+  [data-theme="dark"]{
+    --ink:#e2e8f0;
+    --paper:#0f1117;
+    --paper2:#161b27;
+    --navy:#a8bdd8;
+    --navy2:#7a9abf;
+    --navy-soft:#1e2a3a;
+    --gold:#cba14a;
+    --gold-bright:#e0b96a;
+    --gold-soft:#2a2010;
+    --sea:#4ab8a8;
+    --sea-soft:#0e2926;
+    --clay:#d47a5a;
+    --clay-soft:#2a1208;
+    --plum:#9a7abf;
+    --plum-soft:#1e1430;
+    --slate:#8a9ab8;
+    --line:#2e3650;
+    --ok:#4aaa6e;
+  }
+  [data-theme="dark"] body{background:var(--paper);color:var(--ink)}
+  [data-theme="dark"] header{background:linear-gradient(160deg,#0a0d15 0%,#111827 100%)}
+  [data-theme="dark"] .progress{background:#161b27;border-bottom-color:#2e3650}
+  [data-theme="dark"] .pg-track{background:#2e3650}
+  [data-theme="dark"] .toolbar{background:rgba(15,17,23,.95);border-bottom-color:#2e3650}
+  [data-theme="dark"] .search{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .search input{background:transparent;color:var(--ink)}
+  [data-theme="dark"] .search input::placeholder{color:#4a5568}
+  [data-theme="dark"] .tabs{background:rgba(15,17,23,.94);border-bottom-color:#2e3650}
+  [data-theme="dark"] .tab{background:#161b27;border-color:#2e3650;color:#8a9ab8}
+  [data-theme="dark"] .tab.active{background:var(--navy2);border-color:var(--navy2);color:#fff}
+  [data-theme="dark"] .tab:hover{border-color:var(--gold);color:var(--gold)}
+  [data-theme="dark"] .course{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .course::before{opacity:.85}
+  [data-theme="dark"] .course::after{opacity:.6}
+  [data-theme="dark"] .course:hover{box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  [data-theme="dark"] .course.checked{background:linear-gradient(135deg,#0d2018,#161b27)}
+  [data-theme="dark"] .c-name{color:#e2e8f0}
+  [data-theme="dark"] .c-name .en{color:#64748b}
+  [data-theme="dark"] .chk{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .course.open .c-detail{background:color-mix(in srgb,var(--cc) 6%,#161b27)}
+  [data-theme="dark"] .c-detail{color:#8a9ab8}
+  [data-theme="dark"] .pill.other{background:#1e2a3a;border-color:#2e3650;color:#e2e8f0}
+  [data-theme="dark"] .note{background:#1e1a0a;border-color:#3a2e10;color:#d4b870}
+  [data-theme="dark"] .note b{color:#e0c878}
+  [data-theme="dark"] .prereq-mini{background:#1e1a0a;border-color:#3a2e10;color:#d4b870}
+  [data-theme="dark"] .prereq-mini b{color:#e0c878}
+  [data-theme="dark"] .term-head{background:linear-gradient(135deg,#161b27,#1e2436);border-color:#2e3650;color:#e2e8f0}
+  [data-theme="dark"] .term{background:#0f1117;border-color:#1e2436}
+  [data-theme="dark"] .stat-row,.stat-row2{background:rgba(255,255,255,.03)}
+  [data-theme="dark"] .stat b{color:#e2e8f0}
+  [data-theme="dark"] .stat span{color:#8a9ab8}
+  [data-theme="dark"] .btn-print{background:#1e2436;border-color:#2e3650;color:#8a9ab8}
+  [data-theme="dark"] .btn-print:hover{background:var(--navy);color:#fff}
+  [data-theme="dark"] .prog-btn{background:#161b27;border-color:#2e3650;color:#8a9ab8}
+  [data-theme="dark"] .prog-btn.active{background:var(--navy2);border-color:var(--navy2);color:#fff}
+  [data-theme="dark"] .grade-open-btn{background:#1e2436;border-color:#2e3650;color:#8a9ab8}
+  [data-theme="dark"] .grade-open-btn:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+  [data-theme="dark"] .search-panel{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .opts{background:#0f1117;border-color:#2e3650}
+  [data-theme="dark"] .opts-head{background:#161b27;border-color:#2e3650;color:#e2e8f0}
+  [data-theme="dark"] .opt{color:#e2e8f0;border-color:#2e3650}
+  [data-theme="dark"] .opt:hover{background:#1e2436}
+  [data-theme="dark"] .opt.hit{background:#1e1a0a}
+  [data-theme="dark"] .coop-page-hero{box-shadow:0 10px 32px rgba(0,0,0,.5)}
+  [data-theme="dark"] .tl-card2,.tl-card{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .review-card{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .rv-body{color:#c8d4e8}
+  [data-theme="dark"] .faq-item{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .faq-q{color:#e2e8f0}
+  [data-theme="dark"] .faq-q:hover{background:#1e2436}
+  [data-theme="dark"] .faq-a{color:#8a9ab8}
+  [data-theme="dark"] .rule-item{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .coop-req-card{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .coop-req-card h4{color:#e2e8f0}
+  [data-theme="dark"] .coop-req-card ul li{color:#c8d4e8;border-color:#2e3650}
+  [data-theme="dark"] .prep-card{background:#161b27;border-color:#2e3650}
+  [data-theme="dark"] .prep-card .pc-title{color:#e2e8f0}
+  [data-theme="dark"] .coop-timeline .tl-card{background:#161b27}
+  [data-theme="dark"] .legend{color:#8a9ab8}
+  [data-theme="dark"] .coop-link-box{box-shadow:0 8px 24px rgba(0,0,0,.5)}
+  [data-theme="dark"] .pg-reset{background:#1e2436;color:#8a9ab8;border:1px solid #2e3650}
+  [data-theme="dark"] .pg-reset:hover{background:#2e3650;color:#e2e8f0}
+
+  /* ปุ่ม dark mode toggle */
+  .dark-toggle{
+    flex:none;display:inline-flex;align-items:center;gap:6px;
+    padding:6px 13px;border-radius:20px;cursor:pointer;
+    font-size:.8rem;font-weight:700;font-family:inherit;
+    border:1.5px solid var(--line);background:var(--paper2);color:var(--slate);
+    transition:.2s;white-space:nowrap}
+  .dark-toggle:hover{border-color:var(--gold);color:var(--navy);background:var(--gold-soft)}
+  [data-theme="dark"] .dark-toggle{background:#1e2436;border-color:#3a4a6a;color:#a8bdd8}
+  [data-theme="dark"] .dark-toggle:hover{border-color:var(--gold);color:var(--gold);background:#2a2010}
   .coop-hero{position:relative;overflow:hidden;border-radius:16px;margin-bottom:14px;
     background:linear-gradient(135deg,var(--sea) 0%,#0f4a44 100%);color:#eafff9;padding:20px 22px;
     box-shadow:0 8px 24px rgba(31,107,99,.3)}
@@ -1074,8 +1240,37 @@
 <!-- PROGRESS -->
 <div class="progress">
   <div class="wrap">
-    <span class="pg-num" id="pgNum"><b>0</b> / 129 หน่วยกิต</span>
-    <div class="pg-track"><div class="pg-fill" id="pgFill"></div></div>
+
+    <!-- ตัวเลขหลัก -->
+    <div class="pg-main">
+      <span class="pg-done" id="pgDone">0</span>
+      <span class="pg-sep">/</span>
+      <span class="pg-total" id="pgTotal">129</span>
+      <span class="pg-unit">นก.</span>
+    </div>
+
+    <!-- track + % -->
+    <div class="pg-track-wrap">
+      <div class="pg-track"><div class="pg-fill" id="pgFill"></div></div>
+      <div class="pg-pct-row">
+        <span class="pg-pct-left" id="pgPctLeft">เหลืออีก 129 นก.</span>
+        <span class="pg-pct-right" id="pgPct">0%</span>
+      </div>
+    </div>
+
+    <!-- breakdown แยกประเภท -->
+    <div class="pg-breakdown" id="pgBreakdown">
+      <span class="pg-pill ge"   id="pbGe"  ><span class="pp-num">0</span> GE</span>
+      <span class="pg-pill core" id="pbCore"><span class="pp-num">0</span> แกน</span>
+      <span class="pg-pill maj"  id="pbMaj" ><span class="pp-num">0</span> เอกบังคับ</span>
+      <span class="pg-pill elec" id="pbElec"><span class="pp-num">0</span> เอกเลือก</span>
+      <span class="pg-pill free" id="pbFree"><span class="pp-num">0</span> เสรี</span>
+      <span class="pg-pill coop" id="pbCoop" style="display:none"><span class="pp-num">0</span> สหกิจ</span>
+    </div>
+
+    <!-- badge ครบ -->
+    <span class="pg-done-badge" id="pgDoneBadge">🎓 ครบแล้ว!</span>
+
     <button class="pg-reset" id="pgReset">ล้างที่ติ๊ก</button>
   </div>
 </div>
@@ -1090,6 +1285,7 @@
       <button class="clr" id="clrBtn">✕</button>
     </div>
     <button class="btn-print" id="printBtn">🖨 พิมพ์ / บันทึก PDF</button>
+    <button class="dark-toggle" id="darkToggle" aria-label="สลับโหมดสีเข้ม">🌙 Dark</button>
   </div>
 </div>
 
@@ -4375,15 +4571,76 @@
   }
 
   function recount(){
-    const TOTAL=PROG[currentProg].total;
-    let sum=0;
-    // นับเฉพาะ section ของหลักสูตรปัจจุบัน
-    document.querySelectorAll('.year[data-prog="'+currentProg+'"] .course.checked').forEach(c=>sum+=parseInt(c.dataset.cr||0,10));
-    const pct=Math.min(100,Math.round(sum/TOTAL*100));
-    fill.style.width=pct+'%';
-    const done=sum>=TOTAL;
-    num.className='pg-num'+(done?' done':'');
-    num.innerHTML=done?('<b>'+sum+'</b> / '+TOTAL+' หน่วยกิต · ครบแล้ว 🎓'):('<b>'+sum+'</b> / '+TOTAL+' หน่วยกิต · เหลืออีก '+(TOTAL-sum));
+    const TOTAL = PROG[currentProg].total;
+    const isCoop = ['C','D','Int-B'].includes(currentProg);
+    let sum=0, ge=0, core=0, maj=0, elec=0, free=0, coop=0;
+
+    document.querySelectorAll(
+      '.year[data-prog="'+currentProg+'"] .course.checked'
+    ).forEach(c=>{
+      const cr = parseInt(c.dataset.cr||0, 10);
+      sum += cr;
+      if(c.classList.contains('ge'))   ge   += cr;
+      else if(c.classList.contains('core'))  core += cr;
+      else if(c.classList.contains('major')) maj  += cr;
+      else if(c.classList.contains('elec'))  elec += cr;
+      else if(c.classList.contains('free'))  free += cr;
+      // สหกิจ data-cr=6 อยู่ใน major class
+    });
+
+    // ── ตัวเลขหลัก ──
+    const pct  = Math.min(100, Math.round(sum/TOTAL*100));
+    const done = sum >= TOTAL;
+    const doneEl = document.getElementById('pgDone');
+    if(doneEl){
+      // animate bounce เมื่อตัวเลขเปลี่ยน
+      doneEl.classList.remove('animate');
+      void doneEl.offsetWidth; // force reflow
+      doneEl.classList.add('animate');
+      doneEl.textContent = sum;
+      doneEl.classList.toggle('done-color', done);
+      setTimeout(()=>doneEl.classList.remove('animate'), 400);
+    }
+    const totalEl = document.getElementById('pgTotal');
+    if(totalEl) totalEl.textContent = TOTAL;
+
+    // ── progress bar ──
+    const fillEl = document.getElementById('pgFill');
+    if(fillEl){
+      fillEl.style.width = pct+'%';
+      fillEl.classList.toggle('done-fill', done);
+    }
+
+    // ── text ──
+    const leftEl = document.getElementById('pgPctLeft');
+    const pctEl  = document.getElementById('pgPct');
+    if(leftEl) leftEl.textContent = done ? '✓ เก็บครบ '+sum+' นก. แล้ว!' : 'เหลืออีก '+(TOTAL-sum)+' นก.';
+    if(pctEl){ pctEl.textContent = pct+'%'; pctEl.classList.toggle('done-color', done); }
+
+    // ── badge ครบ ──
+    const badge = document.getElementById('pgDoneBadge');
+    if(badge) badge.classList.toggle('show', done);
+
+    // ── breakdown pills helper ──
+    function setPill(id, val, show=true){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.style.display = show ? '' : 'none';
+      const numEl = el.querySelector('.pp-num');
+      if(numEl && numEl.textContent !== String(val)){
+        numEl.textContent = val;
+        el.classList.remove('flash');
+        void el.offsetWidth;
+        el.classList.add('flash');
+        setTimeout(()=>el.classList.remove('flash'), 500);
+      }
+    }
+    setPill('pbGe',   ge);
+    setPill('pbCore', core);
+    setPill('pbMaj',  maj);
+    setPill('pbElec', elec);
+    setPill('pbFree', free);
+    setPill('pbCoop', isCoop ? maj : 0, isCoop); // สหกิจนับรวมใน maj แต่แสดงแยก
   }
 
   // คืนสถานะติ๊กของทั้งสองหลักสูตร
@@ -5624,6 +5881,39 @@
   }
   setNavTop();
   window.addEventListener('resize',setNavTop,{passive:true});
+})();
+
+/* ===== DARK MODE ===== */
+(function(){
+  const html    = document.documentElement;
+  const btn     = document.getElementById('darkToggle');
+  const KEY     = 'econ-theme';
+
+  function setTheme(dark){
+    html.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if(btn){
+      btn.textContent = dark ? '☀️ Light' : '🌙 Dark';
+      btn.setAttribute('aria-label', dark ? 'เปลี่ยนเป็นโหมดสว่าง' : 'เปลี่ยนเป็นโหมดสีเข้ม');
+    }
+    try{ localStorage.setItem(KEY, dark ? 'dark' : 'light'); }catch(e){}
+  }
+
+  // โหลดค่าจาก localStorage ก่อน ถ้าไม่มีใช้ system preference
+  let saved;
+  try{ saved = localStorage.getItem(KEY); }catch(e){}
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(saved ? saved === 'dark' : prefersDark);
+
+  // กดปุ่ม toggle
+  if(btn) btn.addEventListener('click', ()=>{
+    setTheme(html.getAttribute('data-theme') !== 'dark');
+  });
+
+  // ฟัง system preference เปลี่ยนแบบ real-time (ถ้าไม่มี saved preference)
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e=>{
+    let s; try{ s = localStorage.getItem(KEY); }catch(err){}
+    if(!s) setTheme(e.matches);
+  });
 })();
 
 </script>
