@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>แผนการเรียน 4 ปี · เศรษฐศาสตรบัณฑิต หลักสูตร พ.ศ.2568 · Econ CMU</title>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W064V98E1Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-W064V98E1Y');
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700;800&family=Noto+Serif+Thai:wght@600;700&family=Prompt:wght@700;800&display=swap" rel="stylesheet">
@@ -1153,6 +1145,14 @@
   .coop-hero .ch-pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
     border-radius:20px;padding:5px 13px;font-size:.78rem;font-weight:700;backdrop-filter:blur(2px)}
 </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W064V98E1Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-W064V98E1Y');
+  </script>
 </head>
 <body>
 
@@ -4500,17 +4500,6 @@
     window.scrollTo({top:document.querySelector('.toolbar').offsetTop-60,behavior:'smooth'});
     // reset quick-nav ตัวแรกเป็น active เมื่อเข้าแท็บสหกิจ
     if(y==='coop' && window.__resetCoopNav__) window.__resetCoopNav__();
-    // ── GA4 Event: tab_view ──
-    if(typeof gtag === 'function'){
-      const tabLabel = t.textContent?.trim() || y;
-      gtag('event', 'tab_view', {
-        event_category: 'Navigation',
-        event_label: tabLabel,
-        tab_id:      y,
-        tab_name:    tabLabel,
-        program:     currentProg
-      });
-    }
   }));
 
   // ปุ่มสลับหลักสูตร
@@ -4526,7 +4515,6 @@
   }
   document.querySelectorAll('[data-prog-btn]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const prevProg = currentProg;
       currentProg=btn.dataset.progBtn;
       document.querySelectorAll('[data-prog-btn]').forEach(b=>b.classList.toggle('active',b===btn));
       applyProgVisibility();
@@ -4552,17 +4540,6 @@
         }
       }
       if(intlBanner) intlBanner.classList.toggle('show-intl', isIntlB);
-      // ── GA4 Event: program_switch ──
-      if(typeof gtag === 'function'){
-        const progLabel = btn.textContent?.trim() || currentProg;
-        gtag('event', 'program_switch', {
-          event_category: 'Program Selection',
-          event_label: progLabel,
-          program_id:   currentProg,
-          program_name: progLabel,
-          previous_program: prevProg
-        });
-      }
     });
   });
 
@@ -4681,29 +4658,8 @@
   document.querySelectorAll('.chk').forEach(chk=>{
     chk.addEventListener('click',e=>{
       e.stopPropagation();
-      const card = chk.closest('.course');
-      card.classList.toggle('checked');
+      chk.closest('.course').classList.toggle('checked');
       recount();saveChecked();
-      // ── GA4 Event: course_check ──
-      if(typeof gtag === 'function'){
-        const isChecked = card.classList.contains('checked');
-        const courseId   = card.dataset.id   || 'unknown';
-        const courseName = card.querySelector('.c-name')?.childNodes[0]?.textContent?.trim() || 'unknown';
-        const courseType = card.classList.contains('ge')    ? 'GE'
-                         : card.classList.contains('core')  ? 'วิชาแกน'
-                         : card.classList.contains('major') ? 'เอกบังคับ'
-                         : card.classList.contains('elec')  ? 'เอกเลือก'
-                         : card.classList.contains('free')  ? 'เลือกเสรี' : 'อื่นๆ';
-        gtag('event', 'course_check', {
-          event_category: 'Course Tracker',
-          event_label: courseId + ' · ' + courseName,
-          course_id:   courseId,
-          course_name: courseName,
-          course_type: courseType,
-          program:     currentProg,
-          action:      isChecked ? 'tick' : 'untick'
-        });
-      }
     });
   });
   document.getElementById('pgReset').addEventListener('click',()=>{
@@ -5961,5 +5917,12 @@
 })();
 
 </script>
+
+<!-- Vercel Analytics — ทำงานอัตโนมัติหลัง deploy บน Vercel -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 </body>
 </html>
